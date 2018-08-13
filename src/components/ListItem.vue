@@ -1,5 +1,5 @@
 <template>
-  <div class="list-item">
+  <div class="list-item" @click="handleClick">
     <h3><a>{{title}}</a></h3>
     <div class="thumbnail">
       <img :src="thumbnail" v-if="thumbnail != 'default'" />
@@ -17,20 +17,30 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component({
   props: {
     author: String,
+    id: String,
+    onClick: Function,
     subreddit: String,
     thumbnail: String,
     title: String,
   },
 })
-export default class ListItem extends Vue {}
+export default class ListItem extends Vue {
+  public handleClick() {
+    this.onClick(this.id);
+  }
+}
 </script>
 
 <style lang="stylus">
 .list-item
   border 1px solid #eee
+  cursor pointer
   display grid
   grid-template-columns repeat(3, 1fr) auto
   padding 5px 10px
+
+  &:hover h3 a
+    color: #00c1ff
 
 .thumbnail
   padding 20px 5px 5px
