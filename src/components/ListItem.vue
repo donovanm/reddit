@@ -49,14 +49,16 @@ export default class ListItem extends Vue {
     border-radius 4px
 
 h3
-  font-family Oswald
-  font-weight 400
-  grid-column 1 / -2;
+  font-family "Product Sans"
+  font-weight 500
+  grid-column 1 / -2
+  line-height 1.4
 
 .author
-  font-size 80%
-  font-weight 300
-  grid-column: span 2;
+  color #6d6d6d
+  font-size 90%
+  font-weight 400
+  grid-column: span 2
 
 .subreddit
   font-size 80%

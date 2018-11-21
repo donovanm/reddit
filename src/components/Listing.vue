@@ -14,9 +14,12 @@
     </ul>
     <content>
       <Post
-        :title="post.title"
+        :downvotes="post.downvotes"
         :selfText="post.selfText"
-        :image="post.image"
+        :title="post.title"
+        :type="post.type"
+        :upvotes="post.upvotes"
+        :url="post.url"
       />
     </content>
   </div>
@@ -39,20 +42,24 @@ export default class Listing extends Vue {
   }
 
   public getPost(id: string = '7mjw12') {
+    this.post = {};
     fetch(`https://www.reddit.com/comments/${id}.json`)
       .then((res) => res.json())
       .then((results) => {
         const data = results[0].data.children[0].data;
         this.post = {
-          title: data.title,
+          downvotes: data.downs,
           selfText: data.selftext,
-          image: data.preview.images[0].source.url,
+          title: data.title,
+          type: data.url.match(/\.gifv/) ? 'video' : 'image',
+          upvotes: data.ups,
+          url: data.url.replace(/\.gifv$/, '.mp4'),
         };
       });
   }
 
   private mounted() {
-    fetch('https://www.reddit.com/top.json?limit=15')
+    fetch('https://www.reddit.com/top.json?limit=50')
       .then((res) => res.json())
       .then((results) => {
         this.items = results.data.children.map((result: any) => ({
@@ -74,7 +81,7 @@ export default class Listing extends Vue {
 
 <style lang="stylus">
 h2
-  font-family Oswald
+  font-family "Product Sans"
   font-weight 400
 
 li
@@ -83,4 +90,11 @@ li
 .listing
   display grid
   grid-template-columns 2fr 3fr
+
+.listing > ul
+  height: 100vh
+  margin: 0
+  min-width 400px
+  overflow-y: auto
+
 </style>
