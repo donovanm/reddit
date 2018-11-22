@@ -15,9 +15,20 @@
       autoplay="autoplay"
       loop="loop"
       webkit-playsinline=""
+      :width="width"
     >
       <source :src="url">
     </video>
+    <iframe
+      v-if="url.startsWith('https://www.youtube.com/') || url.startsWith('https://youtu.be/')"
+      :height="width * 9 / 16"
+      :src="youtubeEmbeddedUrl"
+      :width="width"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      frameborder="0"
+      allowfullscreen
+      autoplay
+    ></iframe>
     <a v-if="type && type !== 'self'" :href="url" target="_blank">{{url}}</a>
     <div>{{selfText}}</div>
   </div>
@@ -38,17 +49,30 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
   },
 })
 export default class Post extends Vue {
-  public resizeVideo() {
-    const { container, video } = this.$refs;
+  private width = 0;
 
-    if (video) {
-      video.width = container.offsetWidth;
+  public getContainerWidth() {
+    const { container } = this.$refs;
+
+    if (container && this.width !== container.offsetWidth) {
+      this.width = container.offsetWidth;
     }
   }
   private updated() {
-    this.resizeVideo();
+    this.getContainerWidth();
   }
-}
+
+  get youtubeEmbeddedUrl() {
+    const autoplay = `${this.url.includes('?') ? '&' : '?'}autoplay=1`;
+    const url = new URL(this.url);
+    let id = url.searchParams.get('v') || url.searchParams.get('video');
+
+    if (!id && url.origin === 'https://youtu.be') {
+      id = url.toString().match(/https:\/\/youtu\.be\/([0-9a-zA-Z_-]+)/)[1];
+    }
+
+    return `https://youtube.com/embed/${id}?autoplay=1`;
+  }
 </script>
 
 <style lang="stylus">

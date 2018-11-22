@@ -47,8 +47,10 @@ export default class Listing extends Vue {
 
     this.post = {};
     setTimeout(() => this.post = post);
+  }
 
-// fetch(`https://www.reddit.com/comments/${id}.json`)
+  public getComments(id: string = '7mjw12') {
+    // fetch(`https://www.reddit.com/comments/${id}.json`)
     //   .then((res) => res.json())
     //   .then((results) => {
     //     const data = results[0].data.children[0].data;
@@ -74,7 +76,8 @@ export default class Listing extends Vue {
   }
 
   private mounted() {
-    fetch('https://www.reddit.com/top.json?limit=50')
+    // fetch('https://www.reddit.com/new.json?limit=50')
+    fetch('https://www.reddit.com/r/videos/new.json?limit=50')
       .then((res) => res.json())
       .then((results) => {
         this.items = results.data.children.map((result: any) => ({
