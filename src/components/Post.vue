@@ -9,7 +9,7 @@
       </h3>
     </header>
     <img v-if="type === 'image'" :src="url" />
-    <video v-if="type === 'video'" ref="video"
+    <video v-if="type === 'video' || type === 'hosted:video'" ref="video"
       type="video/mp4"
       preload="auto"
       autoplay="autoplay"
@@ -17,10 +17,11 @@
       webkit-playsinline=""
       :width="width"
     >
-      <source :src="url">
+      <source :src="redditVideo || url">
     </video>
+    <audio v-if="type === 'hosted:video'" :src="audioURL" autoplay />
     <iframe
-      v-if="url.startsWith('https://www.youtube.com/') || url.startsWith('https://youtu.be/')"
+      v-if="isYoutubeVideo"
       :height="width * 9 / 16"
       :src="youtubeEmbeddedUrl"
       :width="width"
@@ -53,6 +54,7 @@ export default class Post extends Vue {
   // };
   @Prop() private author!: string;
   @Prop() private downvotes!: number;
+  @Prop() private redditVideo!: string;
   @Prop() private selfText!: string;
   @Prop() private title!: string;
   @Prop() private type!: string;
@@ -74,11 +76,27 @@ export default class Post extends Vue {
     this.getContainerWidth();
   }
 
-  get renderedSelfText() {
+  get audioURL(): string {
+    return this.redditVideo.replace(/DASH.*$/, 'audio');
+  }
+
+  get isYoutubeVideo(): boolean {
+    return !this.url.startsWith('https://www.youtube.com/channel') &&
+      (this.url.startsWith('https://www.youtube.com/') || this.url.startsWith('https://youtu.be/'));
+  }
+
+  get videoSource(): string {
+    if (this.type === 'hosted:video') {
+      return this.redditVideo;
+    }
+    return this.url;
+  }
+
+  get renderedSelfText(): string {
     return parseMarkdown(this.selfText);
   }
 
-  get youtubeEmbeddedUrl() {
+  get youtubeEmbeddedUrl(): string {
     const autoplay = `${this.url.includes('?') ? '&' : '?'}autoplay=1`;
     const url: any = new URL(this.url);
     let id = url.searchParams.get('v') || url.searchParams.get('video');

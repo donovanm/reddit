@@ -4,7 +4,9 @@
       <li v-for="item in items" :key="item.id">
         <ListItem
           :author="item.author"
+          :domain="item.domain"
           :id="item.id"
+          :nsfw="item.nsfw"
           :onClick="handleClickPost"
           :subreddit="item.subreddit"
           :thumbnail="item.thumbnail"
@@ -16,6 +18,7 @@
     <content>
       <Post
         :downvotes="post.downvotes"
+        :redditVideo="post.redditVideo"
         :selfText="post.selfText"
         :title="post.title"
         :type="post.type"
@@ -31,6 +34,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import ListItem from './ListItem.vue';
 import Post from './Post.vue';
 
+function parseRedditVideo(data: { secure_media: { reddit_video: { fallback_url: string, hls_url: string }}}): string {
+  if (!data.secure_media || !data.secure_media.reddit_video) {
+    return '';
+  }
+  return data.secure_media.reddit_video.fallback_url;
+}
+
 @Component({
   components: { ListItem, Post },
 })
@@ -38,11 +48,11 @@ export default class Listing extends Vue {
   private items: object[] = [];
   private post: object = {};
 
-  public handleClickPost(id: string) {
+  public handleClickPost(id: string): void {
     this.getPost(id);
   }
 
-  public getPost(id: string = '7mjw12') {
+  public getPost(id: string = '7mjw12'): void {
     const post = this.items.find((item: any) => item.id === id) || {};
 
     this.post = {};
@@ -76,14 +86,15 @@ export default class Listing extends Vue {
   }
 
   private mounted() {
-    // fetch('https://www.reddit.com/new.json?limit=50')
-    fetch('https://www.reddit.com/r/videos/new.json?limit=50')
+    // fetch('https://www.reddit.com/hot.json?limit=50')
+    fetch('https://www.reddit.com/r/funny/new.json?limit=50')
       .then((res) => res.json())
       .then((results) => {
         this.items = results.data.children.map((result: any) => ({
           author: result.data.author,
           category: result.data.category,
           commentCount: result.data.num_comments,
+          domain: result.data.domain,
           downvotes: result.data.downs,
           id: result.data.id,
           isMediaOnly: result.data.media_only,
@@ -94,6 +105,7 @@ export default class Listing extends Vue {
           media: result.data.media,
           nsfw: result.data.over_18,
           permalink: result.data.permalink,
+          redditVideo: parseRedditVideo(result.data),
           selfText: result.data.selftext,
           subreddit: result.data.subreddit_name_prefixed,
           thumbnail: result.data.thumbnail,

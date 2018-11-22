@@ -9,6 +9,7 @@
     </div>
     <div class="author">by {{author}}</div>
     <div class="subreddit">
+      <span class="domain">{{domain}}</span>
       <a :href="subreddit">{{subreddit}}</a>
     </div>
   </div>
@@ -20,6 +21,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class ListItem extends Vue {
   @Prop() private author!: string;
+  @Prop() private domain!: string;
   @Prop() private id!: string;
   @Prop() private nsfw!: boolean;
   @Prop() private onClick!: (id: string) => void;
@@ -76,6 +78,11 @@ h3
   a
     color #38b6ad
     text-decoration none
+
+  .domain
+    color #7e7e7e
+    font-style normal
+    margin-right 15px
 
 .post-type
   background-color #eee
