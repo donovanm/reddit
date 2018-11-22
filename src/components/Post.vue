@@ -30,12 +30,21 @@
       autoplay
     ></iframe>
     <a v-if="type && type !== 'self'" :href="url" target="_blank">{{url}}</a>
-    <div>{{selfText}}</div>
+    <div class="self-text" v-html="renderedSelfText" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { HtmlRenderer, Parser } from 'commonmark';
+
+const reader = new Parser();
+const writer = new HtmlRenderer();
+
+function parseMarkdown(text: string) {
+  const parsed = reader.parse(text);
+  return writer.render(parsed);
+}
 
 @Component
 export default class Post extends Vue {
@@ -50,7 +59,9 @@ export default class Post extends Vue {
   @Prop() private upvotes!: number;
   @Prop() private url!: string;
 
-  private width = 0;
+  private reader: any;
+  private width: number = 0;
+  private writer: any;
 
   public getContainerWidth() {
     const { container } = this.$refs;
@@ -61,6 +72,10 @@ export default class Post extends Vue {
   }
   private updated() {
     this.getContainerWidth();
+  }
+
+  get renderedSelfText() {
+    return parseMarkdown(this.selfText);
   }
 
   get youtubeEmbeddedUrl() {
@@ -92,4 +107,14 @@ export default class Post extends Vue {
     max-height 100%
   header
     padding 5px 10px 0
+.self-text
+  font-size 18px
+  font-weight 300
+  line-height 1.6
+  max-width 800px
+
+  a
+    color #099be4
+    font-weight 400
+    text-decoration none
 </style>
