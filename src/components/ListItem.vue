@@ -14,18 +14,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({
-  props: {
-    author: String,
-    id: String,
-    onClick: Function,
-    subreddit: String,
-    thumbnail: String,
-    title: String,
-    type: String,
-  },
-})
+@Component
 export default class ListItem extends Vue {
+  @Prop() private author!: string;
+  @Prop() private id!: string;
+  @Prop() private onClick!: (id: string) => void;
+  @Prop() private subreddit!: string;
+  @Prop() private thumbnail!: string;
+  @Prop() private title!: string;
+  @Prop() private type!: string;
+
   public handleClick() {
     this.onClick(this.id);
   }

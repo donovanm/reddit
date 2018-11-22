@@ -37,18 +37,19 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({
-  props: {
-    author: String,
-    downvotes: Number,
-    selfText: String,
-    title: String,
-    type: String,
-    upvotes: Number,
-    url: String,
-  },
-})
+@Component
 export default class Post extends Vue {
+  // @Prop() public $refs!: {
+  //   container: HTMLElement,
+  // };
+  @Prop() private author!: string;
+  @Prop() private downvotes!: number;
+  @Prop() private selfText!: string;
+  @Prop() private title!: string;
+  @Prop() private type!: string;
+  @Prop() private upvotes!: number;
+  @Prop() private url!: string;
+
   private width = 0;
 
   public getContainerWidth() {
@@ -64,15 +65,24 @@ export default class Post extends Vue {
 
   get youtubeEmbeddedUrl() {
     const autoplay = `${this.url.includes('?') ? '&' : '?'}autoplay=1`;
-    const url = new URL(this.url);
+    const url: any = new URL(this.url);
     let id = url.searchParams.get('v') || url.searchParams.get('video');
 
     if (!id && url.origin === 'https://youtu.be') {
       id = url.toString().match(/https:\/\/youtu\.be\/([0-9a-zA-Z_-]+)/)[1];
     }
 
+    if (!id) {
+      const matches = decodeURIComponent(url.toString()).match(/watch\?v=([0-9a-zA-Z_-]+)&/);
+
+      if (matches) {
+        id = matches[1];
+      }
+    }
+
     return `https://youtube.com/embed/${id}?autoplay=1`;
   }
+}
 </script>
 
 <style lang="stylus">

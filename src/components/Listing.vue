@@ -43,7 +43,7 @@ export default class Listing extends Vue {
   }
 
   public getPost(id: string = '7mjw12') {
-    const post = this.items.find((item) => item.id === id) || {};
+    const post = this.items.find((item: any) => item.id === id) || {};
 
     this.post = {};
     setTimeout(() => this.post = post);
