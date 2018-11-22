@@ -2,7 +2,10 @@
   <div class="list-item" @click="handleClick">
     <h3><a>{{title}}</a><span class="post-type">{{type || 'self'}}</span></h3>
     <div class="thumbnail">
-      <img :src="thumbnail" v-if="thumbnail !== 'default' && thumbnail !== 'self'" />
+      <img :src="thumbnail" v-if="thumbnailVisible" />
+      <div v-if="nsfw" class="thumbnail-nsfw">
+        NSFW
+      </div>
     </div>
     <div class="author">by {{author}}</div>
     <div class="subreddit">
@@ -18,6 +21,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class ListItem extends Vue {
   @Prop() private author!: string;
   @Prop() private id!: string;
+  @Prop() private nsfw!: boolean;
   @Prop() private onClick!: (id: string) => void;
   @Prop() private subreddit!: string;
   @Prop() private thumbnail!: string;
@@ -26,6 +30,10 @@ export default class ListItem extends Vue {
 
   public handleClick() {
     this.onClick(this.id);
+  }
+
+  get thumbnailVisible() {
+    return this.thumbnail !== 'default' && this.thumbnail !== 'self' && this.thumbnail !== 'nsfw';
   }
 }
 </script>
@@ -75,4 +83,12 @@ h3
   font-size 70%
   margin-left 10px
   padding 2px 10px
+
+.thumbnail-nsfw
+  background-color #f5f5f5
+  border-radius 4px
+  color orangered
+  padding 30px 0
+  text-align center
+  width 140px
 </style>

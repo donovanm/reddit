@@ -109,7 +109,7 @@ export default class Post extends Vue {
     padding 5px 10px 0
 .self-text
   font-size 18px
-  font-weight 300
+  font-weight 400
   line-height 1.6
   max-width 800px
 
