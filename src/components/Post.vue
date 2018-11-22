@@ -1,13 +1,15 @@
 <template>
   <div class="post" v-if="url" ref="container">
-    <h2 style="margin: 0">{{title}}</h2>
-    <h3 style="font-size: 70%; margin: 0 0 10px">
-      <span style="color: rgb(255, 69, 0);">{{upvotes}}</span>
-      |
-      <span style="color: rgb(113, 147, 255);">{{downvotes}}</span>
-    </h3>
+    <header>
+      <h2 style="margin: 0">{{title}}</h2>
+      <h3 style="font-size: 70%; margin: 0 0 10px">
+        <span style="color: rgb(255, 69, 0);">{{upvotes}}</span>
+        |
+        <span style="color: rgb(113, 147, 255);">{{downvotes}}</span>
+      </h3>
+    </header>
     <img v-if="type === 'image'" :src="url" />
-    <video v-if="type === 'video'" id="myvideo" ref="video"
+    <video v-if="type === 'video'" ref="video"
       type="video/mp4"
       preload="auto"
       autoplay="autoplay"
@@ -16,7 +18,7 @@
     >
       <source :src="url">
     </video>
-    <a :href="url" target="_blank">{{url}}</a>
+    <a v-if="type && type !== 'self'" :href="url" target="_blank">{{url}}</a>
     <div>{{selfText}}</div>
   </div>
 </template>
@@ -52,6 +54,8 @@ export default class Post extends Vue {
 <style lang="stylus">
 .post
   img
-    max-width: 100%
-    max-height: 100%
+    max-width 100%
+    max-height 100%
+  header
+    padding 5px 10px 0
 </style>

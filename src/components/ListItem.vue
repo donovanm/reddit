@@ -1,8 +1,8 @@
 <template>
   <div class="list-item" @click="handleClick">
-    <h3><a>{{title}}</a></h3>
+    <h3><a>{{title}}</a><span class="post-type">{{type || 'self'}}</span></h3>
     <div class="thumbnail">
-      <img :src="thumbnail" v-if="thumbnail != 'default'" />
+      <img :src="thumbnail" v-if="thumbnail !== 'default' && thumbnail !== 'self'" />
     </div>
     <div class="author">by {{author}}</div>
     <div class="subreddit">
@@ -22,6 +22,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
     subreddit: String,
     thumbnail: String,
     title: String,
+    type: String,
   },
 })
 export default class ListItem extends Vue {
@@ -69,4 +70,11 @@ h3
   a
     color #38b6ad
     text-decoration none
+
+.post-type
+  background-color #eee
+  border-radius 3px
+  font-size 70%
+  margin-left 10px
+  padding 2px 10px
 </style>
