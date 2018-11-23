@@ -66,12 +66,13 @@ export default class Post extends Vue {
   private writer: any;
 
   public getContainerWidth() {
-    const { container } = this.$refs;
+    const { container }: { container: { offsetWidth: number }} = this.$refs;
 
     if (container && this.width !== container.offsetWidth) {
       this.width = container.offsetWidth;
     }
   }
+
   private updated() {
     this.getContainerWidth();
   }

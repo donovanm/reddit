@@ -96,8 +96,7 @@ export default class Listing extends Vue {
   }
 
   private getListing() {
-    // fetch('https://www.reddit.com/hot.json?limit=50')
-    fetch(`https://www.reddit.com/${this.subreddit}/new.json?limit=50`)
+    fetch(`https://www.reddit.com/${this.subreddit}/hot.json?limit=50`)
       .then((res) => res.json())
       .then((results) => {
         this.items = results.data.children.map((result: any) => ({
