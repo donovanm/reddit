@@ -130,9 +130,17 @@ export default class Post extends Vue {
   font-weight 400
   line-height 1.6
   max-width 800px
+  padding 10px
 
   a
     color #099be4
     font-weight 400
     text-decoration none
+
+  code
+    display block
+    font-size 75%
+    line-height 1.6
+    overflow auto
+    width 100%
 </style>

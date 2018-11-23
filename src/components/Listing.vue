@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ListItem from './ListItem.vue';
 import Post from './Post.vue';
 
@@ -45,8 +45,14 @@ function parseRedditVideo(data: { secure_media: { reddit_video: { fallback_url: 
   components: { ListItem, Post },
 })
 export default class Listing extends Vue {
+  @Prop() private subreddit!: string;
   private items: object[] = [];
   private post: object = {};
+
+  @Watch('subreddit')
+  public onSubredditChanged(val: string, oldVal: string) {
+    this.getListing();
+  }
 
   public handleClickPost(id: string): void {
     this.getPost(id);
@@ -86,8 +92,12 @@ export default class Listing extends Vue {
   }
 
   private mounted() {
+    this.getListing();
+  }
+
+  private getListing() {
     // fetch('https://www.reddit.com/hot.json?limit=50')
-    fetch('https://www.reddit.com/r/funny/new.json?limit=50')
+    fetch(`https://www.reddit.com/${this.subreddit}/new.json?limit=50`)
       .then((res) => res.json())
       .then((results) => {
         this.items = results.data.children.map((result: any) => ({
