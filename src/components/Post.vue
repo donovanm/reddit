@@ -32,27 +32,22 @@
     ></iframe>
     <a v-if="type && type !== 'self'" :href="url" target="_blank">{{url}}</a>
     <div class="self-text" v-html="renderedSelfText" />
+    <h3>Comments ({{comments.length}})</h3>
+    <Comments :comments="comments" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { HtmlRenderer, Parser } from 'commonmark';
+import Comments from './Comments.vue';
+import parseMarkdown from '../utils/parseMarkdown';
 
-const reader = new Parser();
-const writer = new HtmlRenderer();
-
-function parseMarkdown(text: string) {
-  const parsed = reader.parse(text);
-  return writer.render(parsed);
-}
-
-@Component
+@Component({
+  components: { Comments },
+})
 export default class Post extends Vue {
-  // @Prop() public $refs!: {
-  //   container: HTMLElement,
-  // };
   @Prop() private author!: string;
+  @Prop() private comments!: object[];
   @Prop() private downvotes!: number;
   @Prop() private redditVideo!: string;
   @Prop() private selfText!: string;

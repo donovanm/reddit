@@ -17,6 +17,7 @@
     </ul>
     <content>
       <Post
+        :comments="comments"
         :downvotes="post.downvotes"
         :redditVideo="post.redditVideo"
         :selfText="post.selfText"
@@ -46,6 +47,7 @@ function parseRedditVideo(data: { secure_media: { reddit_video: { fallback_url: 
 })
 export default class Listing extends Vue {
   @Prop() private subreddit!: string;
+  private comments: object[] = [];
   private items: object[] = [];
   private post: object = {};
 
@@ -63,32 +65,25 @@ export default class Listing extends Vue {
 
     this.post = {};
     setTimeout(() => this.post = post);
+    this.getComments(id);
   }
 
   public getComments(id: string = '7mjw12') {
-    // fetch(`https://www.reddit.com/comments/${id}.json`)
-    //   .then((res) => res.json())
-    //   .then((results) => {
-    //     const data = results[0].data.children[0].data;
-    //     this.post = {
-    //       category: data.category,
-    //       commentCount: data.num_comments,
-    //       downvotes: data.downs,
-    //       isMediaOnly: data.media_only,
-    //       isMeta: data.isMeta,
-    //       isRedditMedia: data.is_reddit_media_domain,
-    //       isVideo: data.is_video,
-    //       linkFlair: data.link_flair_text,
-    //       media: data.media,
-    //       nsfw: data.over_18,
-    //       postType: data.post_hint,
-    //       selfText: data.selftext,
-    //       title: data.title,
-    //       type: data.is_self ? 'self' : data.url.match(/\.gifv/) ? 'video' : 'image',
-    //       upvotes: data.ups,
-    //       url: data.url.replace(/\.gifv$/, '.mp4'),
-    //     };
-    //   });
+    this.comments = [];
+    fetch(`https://www.reddit.com/comments/${id}.json`)
+      .then((res) => res.json())
+      .then((results) => {
+        const comments = results[1].data.children;
+        this.comments = comments.map(({ data: comment }: any) => ({
+          author: comment.author,
+          body: comment.body, // there's also body_html
+          created: comment.created,
+          downvotes: comment.downs,
+          id: comment.id,
+          replies: comment.replies, // will use this in the future
+          upvotes: comment.ups,
+        }));
+      });
   }
 
   private mounted() {
