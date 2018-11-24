@@ -1,8 +1,9 @@
 <template>
-  <div class="comment">
+  <div class="comment" v-if="comment.author">
     <div class="author">
       <span class="upvotes">{{comment.upvotes}}</span>
       {{comment.author}}
+      <span class="op" v-if="comment.isOP">OP</span>
     </div>
     <div class="body" v-html="formattedBody" />
     <Comments v-if="hasChildren" :comments="children" />
@@ -45,6 +46,14 @@ export default class Comment extends Vue {
   .author
     color #aa4823
     margin-bottom -10px
+
+    .op
+      color white
+      font-size 70%
+      background-color #3e88ad
+      border-radius 4px
+      padding 1px 4px
+      font-weight bold
   .body
     font-size 14px
     max-width 500px

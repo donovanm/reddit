@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="main" class="night-mode">
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -8,7 +8,7 @@
   </div>
 </template>
 <style lang="stylus">
-#app
+#main
   font-family 'Product Sans', 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale

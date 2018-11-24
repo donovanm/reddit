@@ -41,7 +41,7 @@ export default class ListItem extends Vue {
 </script>
 
 <style lang="stylus">
-.list-item
+#main .list-item
   border 1px solid #eee
   cursor pointer
   display grid
@@ -87,6 +87,7 @@ h3
 .post-type
   background-color #eee
   border-radius 3px
+  color #333
   font-size 70%
   margin-left 10px
   padding 2px 10px
@@ -98,4 +99,9 @@ h3
   padding 30px 0
   text-align center
   width 140px
+
+#main.night-mode
+  .list-item
+    a
+      color: white
 </style>
