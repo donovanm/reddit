@@ -34,6 +34,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ListItem from './ListItem.vue';
 import Post from './Post.vue';
+import mapComments from '../utils/mapComments';
 
 function parseRedditVideo(data: { secure_media: { reddit_video: { fallback_url: string, hls_url: string }}}): string {
   if (!data.secure_media || !data.secure_media.reddit_video) {
@@ -74,15 +75,7 @@ export default class Listing extends Vue {
       .then((res) => res.json())
       .then((results) => {
         const comments = results[1].data.children;
-        this.comments = comments.map(({ data: comment }: any) => ({
-          author: comment.author,
-          body: comment.body, // there's also body_html
-          created: comment.created,
-          downvotes: comment.downs,
-          id: comment.id,
-          replies: comment.replies, // will use this in the future
-          upvotes: comment.ups,
-        }));
+        this.comments = comments.map(mapComments);
       });
   }
 
@@ -91,7 +84,7 @@ export default class Listing extends Vue {
   }
 
   private getListing() {
-    fetch(`https://www.reddit.com/${this.subreddit}/hot.json?limit=50`)
+    fetch(`https://www.reddit.com/${this.subreddit}/best.json?limit=50`)
       .then((res) => res.json())
       .then((results) => {
         this.items = results.data.children.map((result: any) => ({
@@ -135,7 +128,7 @@ li
 
 .listing
   display grid
-  grid-template-columns 2fr 3fr
+  grid-template-columns 1fr 3fr
 
 .listing > ul
   height calc(100vh - 40px)

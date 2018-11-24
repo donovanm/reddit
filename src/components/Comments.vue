@@ -21,4 +21,13 @@ export default class Comments extends Vue {
 </script>
 
 <style lang="stylus">
+.comments
+  margin-left 20px
+  ul
+    padding-left 0
+  li ul
+    padding-left 25px
+  .comments
+    border-left 2px solid #efefef
+    margin-left 0
 </style>
