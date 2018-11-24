@@ -102,6 +102,7 @@ h3
 
 #main.night-mode
   .list-item
+    border-color #555
     a
       color: white
 </style>

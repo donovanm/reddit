@@ -41,6 +41,7 @@ export default class Comment extends Vue {
 
 <style lang="stylus">
 .comment
+  line-height 1.35
   margin-bottom 10px
 
   .author
@@ -58,7 +59,7 @@ export default class Comment extends Vue {
     font-size 14px
     max-width 500px
   .upvotes
-    color #777
+    color #aaa
     padding 0 5px 0 0
 
     &.upvoted
