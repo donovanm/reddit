@@ -30,7 +30,7 @@ export default class Comment extends Vue {
   }
 
   get formattedBody() {
-    return parseMarkdown(this.comment.body || '');
+    return parseMarkdown((this.comment.body || '').replace(/&gt;/gi, '>').replace(/&lt;/gi, '<'));
   }
 
   get hasChildren(): boolean {
