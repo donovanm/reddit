@@ -26,7 +26,7 @@ export default class Header extends Vue {
 
 <style lang="stylus">
 .main-header
-  border-bottom 1px solid #ddd
+  background-color #141414
   color rgb(255, 69, 0)
   padding 0 10px
 
@@ -49,5 +49,13 @@ export default class Header extends Vue {
 
     &:focus
       background-color white
+      border-color #ff4500
+
+#main.night-mode
+  input
+    background-color #242424
+    border-color #414141
+
+    &:focus
       border-color #ff4500
 </style>

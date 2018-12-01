@@ -1,16 +1,20 @@
 <template>
   <div class="list-item" @click="handleClick">
     <h3><a>{{title}}</a><span class="post-type">{{type || 'self'}}</span></h3>
-    <div class="thumbnail">
-      <img :src="thumbnail" v-if="thumbnailVisible" />
-      <div v-if="nsfw" class="thumbnail-nsfw">
-        NSFW
+    <div class="info">
+      <div class="thumbnail">
+        <img :src="thumbnail" v-if="thumbnailVisible" />
+        <div v-if="nsfw" class="thumbnail-nsfw">
+          NSFW
+        </div>
       </div>
-    </div>
-    <div class="author">by {{author}}</div>
-    <div class="subreddit">
-      <span class="domain">{{domain}}</span>
-      <a :href="subreddit">{{subreddit}}</a>
+      <div>
+        <div class="author">by <span>u/{{author}}</span></div>
+        <div class="subreddit">
+          <a :href="subreddit">{{subreddit}}</a>
+          <div class="domain">{{domain}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -40,40 +44,42 @@ export default class ListItem extends Vue {
 }
 </script>
 
-<style lang="stylus">
+<style scoped lang="stylus">
 #main .list-item
-  border 1px solid #eee
+  border-bottom 2px solid #ccc
   cursor pointer
-  display grid
-  grid-template-columns repeat(3, 1fr) auto
-  padding 5px 10px
+  font-size 14px
+  padding 5px 10px 5px 0
 
   &:hover h3 a
     color: #00c1ff
 
 .thumbnail
-  padding 20px 5px 5px
-
   img
     border-radius 4px
 
 h3
   font-family "Product Sans"
+  font-size 16px
   font-weight 500
   grid-column 1 / -2
   line-height 1.4
+  margin 5px 0 15px
+
+.info
+  display flex
+  flex-direction row-reverse
+  justify-content space-between
 
 .author
   color #6d6d6d
-  font-size 90%
   font-weight 400
-  grid-column: span 2
+
+  span
+    color #823535
 
 .subreddit
-  font-size 80%
   font-style italic
-  grid-column span 2
-  text-align right
 
   a
     color #38b6ad
@@ -85,9 +91,9 @@ h3
     margin-right 15px
 
 .post-type
-  background-color #eee
+  background-color #393939
   border-radius 3px
-  color #333
+  color 8b8b8b
   font-size 70%
   margin-left 10px
   padding 2px 10px
@@ -102,7 +108,7 @@ h3
 
 #main.night-mode
   .list-item
-    border-color #555
+    border-color #4b4b4b
     a
       color: white
 </style>

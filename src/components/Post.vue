@@ -1,6 +1,6 @@
 <template>
   <div class="post" v-if="url" ref="container">
-    <header>
+    <header class="default-padding">
       <h2 style="margin: 0">{{title}}</h2>
       <h3 style="font-size: 70%; margin: 0 0 10px">
         <span style="color: rgb(255, 69, 0);">{{upvotes}}</span>
@@ -30,10 +30,12 @@
       allowfullscreen
       autoplay
     ></iframe>
-    <a v-if="type && type !== 'self'" :href="url" target="_blank">{{url}}</a>
-    <div class="self-text" v-html="renderedSelfText" />
-    <h3>Comments ({{comments.length}})</h3>
-    <Comments :comments="comments" />
+    <div class="default-padding">
+      <a v-if="type && type !== 'self'" :href="url" target="_blank">{{url}}</a>
+      <div class="self-text" v-html="renderedSelfText" />
+      <h3>Comments ({{comments.length}})</h3>
+      <Comments :comments="comments" />
+    </div>
   </div>
 </template>
 
@@ -116,27 +118,40 @@ export default class Post extends Vue {
 
 <style lang="stylus">
 .post
+  background-color #000
   img
     max-width 100%
     max-height 100%
+  h2, h3
+    font-weight 400
+  h3
+    font-size 16px
   header
-    padding 5px 10px 0
+    padding-top 5px
+
+.default-padding
+  padding-left 20px
+  padding-right 20px
+
 .self-text
-  font-size 18px
+  font-size 14px
   font-weight 400
   line-height 1.6
   max-width 800px
-  padding 10px
 
   a
     color #099be4
     font-weight 400
     text-decoration none
 
-  code
+  pre
     display block
-    font-size 75%
     line-height 1.6
     overflow auto
     width 100%
+
+#main.night-mode .post
+  pre
+    background-color #363636
+    overflow auto
 </style>

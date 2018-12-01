@@ -119,26 +119,27 @@ export default class Listing extends Vue {
 </script>
 
 <style lang="stylus">
-h2
-  font-family "Product Sans"
-  font-weight 400
-
-li
-  list-style none
-
 .listing
   display grid
-  grid-template-columns 1fr 3fr
+  grid-template-columns 350px 3fr
 
-.listing > ul
-  height calc(100vh - 40px)
-  margin 0
-  max-width 500px
-  min-width 350px
-  overflow-y auto
-  padding 0
+  & > ul
+    background-color #222
+    height calc(100vh - 40px)
+    margin 0
+    overflow hidden
+    padding 0 0 0 10px
 
-content
-  max-height calc(100vh - 40px)
-  overflow hidden auto
+    li
+      box-sizing content-box
+      list-style none
+      margin-right 20px
+      width 330px
+
+    &:hover
+      overflow-y auto
+
+  content
+    max-height calc(100vh - 40px)
+    overflow hidden auto
 </style>

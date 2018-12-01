@@ -22,16 +22,19 @@ export default class Comments extends Vue {
 
 <style lang="stylus">
 .comments
-  margin-left 20px
+  font-size 14px
+
   ul
     padding-left 0
+  ul > li
+    list-style none
   li ul
-    padding-left 25px
+    padding-left 20px
   .comments
     border-left 2px solid #efefef
     margin-left 0
 
 #main.night-mode
   .comments .comments
-    border-color #555
+    border-color #2a2a2a
 </style>
