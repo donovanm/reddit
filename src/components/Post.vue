@@ -9,22 +9,21 @@
       </h3>
     </header>
     <img v-if="type === 'image'" :src="url" />
-    <video v-if="type === 'video' || type === 'hosted:video'" ref="video"
+    <video
+      v-if="type === 'video' || type === 'hosted:video'"
+      ref="video"
       type="video/mp4"
       preload="auto"
       autoplay="autoplay"
       loop="loop"
       webkit-playsinline=""
-      :width="width"
     >
       <source :src="redditVideo || url">
     </video>
     <audio v-if="type === 'hosted:video'" :src="audioURL" autoplay />
     <iframe
       v-if="isYoutubeVideo"
-      :height="width * 9 / 16"
       :src="youtubeEmbeddedUrl"
-      :width="width"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       frameborder="0"
       allowfullscreen
@@ -59,20 +58,7 @@ export default class Post extends Vue {
   @Prop() private url!: string;
 
   private reader: any;
-  private width: number = 0;
   private writer: any;
-
-  public getContainerWidth() {
-    const { container }: { container: { offsetWidth: number }} = this.$refs;
-
-    if (container && this.width !== container.offsetWidth) {
-      this.width = container.offsetWidth;
-    }
-  }
-
-  private updated() {
-    this.getContainerWidth();
-  }
 
   get audioURL(): string {
     return this.redditVideo.replace(/DASH.*$/, 'audio');
@@ -120,14 +106,26 @@ export default class Post extends Vue {
 .post
   background-color #000
   img
+    display block
+    margin 0 auto
     max-width 100%
-    max-height 100%
+    max-height calc(100vh - 110px)
   h2, h3
     font-weight 400
   h3
     font-size 16px
   header
     padding-top 5px
+
+  video
+    height calc(56.25vw - 200px)
+    max-height calc(100vh - 110px)
+    width 100%
+
+  iframe
+    width 100%
+    height calc(56.25vw - 200px)
+    max-height calc(100vh - 110px)
 
 .default-padding
   padding-left 20px
