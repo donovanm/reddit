@@ -1,7 +1,7 @@
 <template>
   <div class="listing">
     <ul>
-      <li v-for="item in items" :key="item.id">
+      <li v-for="item in items" :key="item.id" :class="{ active: item.id === postId }">
         <ListItem
           :author="item.author"
           :domain="item.domain"
@@ -51,6 +51,7 @@ export default class Listing extends Vue {
   private comments: object[] = [];
   private items: object[] = [];
   private post: object = {};
+  private postId: string = '';
 
   @Watch('subreddit')
   public onSubredditChanged(val: string, oldVal: string) {
@@ -64,6 +65,7 @@ export default class Listing extends Vue {
   public getPost(id: string = '7mjw12'): void {
     const post = this.items.find((item: any) => item.id === id) || {};
 
+    this.postId = post.id;
     this.post = {};
     setTimeout(() => this.post = post);
     this.getComments(id);
@@ -128,13 +130,16 @@ export default class Listing extends Vue {
     height calc(100vh - 40px)
     margin 0
     overflow hidden
-    padding 0 0 0 10px
+    padding 0
 
     li
       box-sizing content-box
       list-style none
-      margin-right 20px
+      padding 0 20px 0 10px
       width 330px
+
+      &.active
+        background-color #29465c80
 
     &:hover
       overflow-y auto
