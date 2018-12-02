@@ -58,10 +58,22 @@ export default class Comment extends Vue {
   .body
     font-size 14px
     max-width 500px
+
   .upvotes
     color #aaa
     padding 0 5px 0 0
 
     &.upvoted
       color #ff4500
+
+  blockquote
+    background-color #111
+    border 3px solid #333
+    border-width 1px 3px
+    margin-left 0
+    padding 10px
+
+    p
+      margin 5px 0
+
 </style>
