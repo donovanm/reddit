@@ -66,11 +66,12 @@ export default class Comment extends Vue {
       color #ff4500
 
   blockquote
-    background-color #111
-    border 3px solid #333
-    border-width 1px 3px
+    background-color #1e1e1e
+    border-color #565656
+    border-style solid
+    border-width 1px 0px
     margin-left 0
-    padding 10px
+    padding 5px 10px
 
     p
       margin 5px 0
