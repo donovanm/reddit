@@ -24,12 +24,15 @@ export default class Comments extends Vue {
 .comments
   font-size 14px
 
-  ul
+  ul.comments-list
     padding-left 0
-  ul > li
-    list-style none
-  li ul
+
+    & > li
+      list-style none
+
+  li ul.comments-list
     padding-left 20px
+
   .comments
     border-left 2px solid #efefef
     margin-left 0

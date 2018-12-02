@@ -46,7 +46,6 @@ export default class Comment extends Vue {
 
   .author
     color #aa4823
-    margin-bottom -10px
 
     .op
       color white
@@ -75,5 +74,8 @@ export default class Comment extends Vue {
 
     p
       margin 5px 0
+
+  p:first-child
+    margin-top 0
 
 </style>
