@@ -91,7 +91,7 @@ export default class Post extends Vue {
   }
 
   get renderedSelfText(): string {
-    return parseMarkdown(this.selfText);
+    return parseMarkdown(this.selfText.replace(/&amp;/gi, '&'));
   }
 
   get youtubeEmbeddedUrl(): string {
