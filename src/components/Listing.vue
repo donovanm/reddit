@@ -17,6 +17,7 @@
     </ul>
     <content>
       <Post
+        :author="post.author"
         :comments="comments"
         :downvotes="post.downvotes"
         :redditVideo="post.redditVideo"

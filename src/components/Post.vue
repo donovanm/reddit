@@ -30,8 +30,8 @@
       autoplay
     ></iframe>
     <div class="default-padding">
-      <a v-if="type && type !== 'self'" :href="url" target="_blank">{{url}}</a>
       <div class="self-text" v-html="renderedSelfText" />
+      <a :href="url" target="_blank">{{url}}</a>
       <h3>Comments ({{comments.length}})</h3>
       <Comments :comments="comments" />
     </div>
