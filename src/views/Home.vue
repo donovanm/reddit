@@ -34,8 +34,9 @@ export default class Home extends Vue {
 <style lang="stylus">
 #main.night-mode
   background-color #000
-  color: #eee
+  color: #ddd
 
   a
     color #3d93f9
+    text-decoration none
 </style>

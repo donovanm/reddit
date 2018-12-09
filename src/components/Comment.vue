@@ -3,6 +3,7 @@
     <div class="author">
       <span class="upvotes">{{comment.upvotes}}</span>
       {{comment.author}}
+      <span v-if="comment.edited" class="comment-info">edited {{editedTimeAgo}}</span>
       <span class="op" v-if="comment.isOP">OP</span>
     </div>
     <div class="body" v-html="formattedBody" />
@@ -12,13 +13,22 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import timeago from 'timeago.js';
 import Comments from './Comments.vue';
 import decodeHTMLEntities from '@/utils/decodeHTMLEntities';
-import mapComments from '../utils/mapComments';
+import mapComments from '@/utils/mapComments';
 
 @Component
 export default class Comment extends Vue {
-  @Prop() private comment!: { body: string, replies: { data: { children: object[] } } };
+  @Prop() private comment!: {
+    body: string,
+    edited: number | boolean,
+    replies: {
+      data: {
+        children: object[],
+      },
+    },
+  };
 
   public beforeCreate() {
     // This has to be done because of a circular reference
@@ -27,6 +37,10 @@ export default class Comment extends Vue {
 
   get children() {
     return this.comment.replies.data.children.map(mapComments);
+  }
+
+  get editedTimeAgo(): string {
+    return timeago().format((Number(this.comment.edited)) * 1000);
   }
 
   get formattedBody() {
@@ -54,6 +68,12 @@ export default class Comment extends Vue {
       border-radius 4px
       padding 1px 4px
       font-weight bold
+
+    .comment-info
+      color #747474
+      font-size 80%
+      font-style italic
+
   .body
     font-size 14px
     max-width 500px

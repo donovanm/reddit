@@ -4,6 +4,7 @@ export default function mapComments({ data: comment }: any) {
     body: comment.body_html,
     created: comment.created,
     downvotes: comment.downs,
+    edited: comment.edited,
     id: comment.id,
     isOP: comment.is_submitter,
     replies: comment.replies,
