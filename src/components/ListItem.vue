@@ -1,6 +1,10 @@
 <template>
   <div class="list-item" @click="handleClick">
-    <h3><a>{{title}}</a><span class="post-type">{{type || 'self'}}</span></h3>
+    <h3>
+      <a>{{title}}</a>
+      <img v-if="stickied" class="stickied" src="../assets/sticky2.png" alt="Stickied post" title="Stickied post" />
+      <span class="post-type">{{type || 'self'}}</span>
+    </h3>
     <div class="info">
       <div class="thumbnail">
         <img :src="thumbnail" v-if="thumbnailVisible" />
@@ -29,6 +33,7 @@ export default class ListItem extends Vue {
   @Prop() private id!: string;
   @Prop() private nsfw!: boolean;
   @Prop() private onClick!: (id: string) => void;
+  @Prop() private stickied!: boolean;
   @Prop() private subreddit!: string;
   @Prop() private thumbnail!: string;
   @Prop() private title!: string;
@@ -65,6 +70,12 @@ h3
   grid-column 1 / -2
   line-height 1.4
   margin 5px 0 15px
+
+.stickied
+  display inline-block
+  height 15px
+  margin-left 5px
+  vertical-align middle
 
 .info
   display flex

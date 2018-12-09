@@ -8,6 +8,7 @@
           :id="item.id"
           :nsfw="item.nsfw"
           :onClick="handleClickPost"
+          :stickied="item.stickied"
           :subreddit="item.subreddit"
           :thumbnail="item.thumbnail"
           :title="item.title"
@@ -107,6 +108,7 @@ export default class Listing extends Vue {
           permalink: result.data.permalink,
           redditVideo: parseRedditVideo(result.data),
           selfText: result.data.selftext_html || '',
+          stickied: result.data.stickied,
           subreddit: result.data.subreddit_name_prefixed,
           thumbnail: result.data.thumbnail,
           title: result.data.title,
