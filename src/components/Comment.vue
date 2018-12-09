@@ -13,7 +13,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Comments from './Comments.vue';
-import parseMarkdown from '../utils/parseMarkdown';
+import decodeHTMLEntities from '@/utils/decodeHTMLEntities';
 import mapComments from '../utils/mapComments';
 
 @Component
@@ -30,7 +30,7 @@ export default class Comment extends Vue {
   }
 
   get formattedBody() {
-    return parseMarkdown((this.comment.body || '').replace(/&gt;/gi, '>').replace(/&lt;/gi, '<'));
+    return decodeHTMLEntities(this.comment.body);
   }
 
   get hasChildren(): boolean {

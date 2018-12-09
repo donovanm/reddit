@@ -41,7 +41,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Comments from './Comments.vue';
-import parseMarkdown from '../utils/parseMarkdown';
+import decodeHTMLEntities from '@/utils/decodeHTMLEntities';
 
 @Component({
   components: { Comments },
@@ -77,7 +77,7 @@ export default class Post extends Vue {
   }
 
   get renderedSelfText(): string {
-    return parseMarkdown(this.selfText.replace(/&amp;/gi, '&'));
+    return decodeHTMLEntities(this.selfText);
   }
 
   get youtubeEmbeddedUrl(): string {

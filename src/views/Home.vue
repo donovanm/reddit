@@ -37,5 +37,5 @@ export default class Home extends Vue {
   color: #eee
 
   a
-    color rgb(113, 147, 255)
+    color #3d93f9
 </style>

@@ -106,7 +106,7 @@ export default class Listing extends Vue {
           nsfw: result.data.over_18,
           permalink: result.data.permalink,
           redditVideo: parseRedditVideo(result.data),
-          selfText: result.data.selftext,
+          selfText: result.data.selftext_html || '',
           subreddit: result.data.subreddit_name_prefixed,
           thumbnail: result.data.thumbnail,
           title: result.data.title,
