@@ -19,6 +19,7 @@
     <content>
       <Post
         :author="post.author"
+        :commentCount="post.commentCount"
         :comments="comments"
         :downvotes="post.downvotes"
         :redditVideo="post.redditVideo"

@@ -32,7 +32,7 @@
     <div class="default-padding">
       <div class="self-text" v-html="renderedSelfText" />
       <a :href="url" target="_blank">{{url}}</a>
-      <h3>Comments ({{comments.length}})</h3>
+      <h3>Comments ({{commentCount}})</h3>
       <Comments :comments="comments" />
     </div>
   </div>
@@ -48,6 +48,7 @@ import decodeHTMLEntities from '@/utils/decodeHTMLEntities';
 })
 export default class Post extends Vue {
   @Prop() private author!: string;
+  @Prop() private commentCount!: number;
   @Prop() private comments!: object[];
   @Prop() private downvotes!: number;
   @Prop() private redditVideo!: string;
