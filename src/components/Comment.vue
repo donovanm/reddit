@@ -6,7 +6,7 @@
       <span v-if="comment.edited" class="comment-info">edited {{editedTimeAgo}}</span>
       <span class="op" v-if="comment.isOP">OP</span>
     </div>
-    <div class="body" v-html="formattedBody" />
+    <div class="body" ref="body" v-html="formattedBody" />
     <Comments v-if="hasChildren" :comments="children" />
   </div>
 </template>
@@ -15,6 +15,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import timeago from 'timeago.js';
 import Comments from './Comments.vue';
+import convertLinks from '@/utils/convertLinks';
 import decodeHTMLEntities from '@/utils/decodeHTMLEntities';
 import mapComments from '@/utils/mapComments';
 
@@ -29,6 +30,10 @@ export default class Comment extends Vue {
       },
     },
   };
+
+  public mounted() {
+    convertLinks((this.$refs.body as Element), this.$router);
+  }
 
   public beforeCreate() {
     // This has to be done because of a circular reference

@@ -30,7 +30,7 @@
       autoplay
     ></iframe>
     <div class="default-padding">
-      <div class="self-text" v-html="renderedSelfText" />
+      <div class="self-text" v-html="renderedSelfText" ref="selfText" />
       <a :href="url" target="_blank">{{url}}</a>
       <h3>Comments ({{commentCount}})</h3>
       <Comments :comments="comments" />
@@ -41,6 +41,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Comments from './Comments.vue';
+import convertLinks from '@/utils/convertLinks';
 import decodeHTMLEntities from '@/utils/decodeHTMLEntities';
 
 @Component({
@@ -60,6 +61,10 @@ export default class Post extends Vue {
 
   private reader: any;
   private writer: any;
+
+  public updated() {
+    convertLinks((this.$refs.selfText as Element), this.$router);
+  }
 
   get audioURL(): string {
     return this.redditVideo.replace(/DASH.*$/, 'audio');
