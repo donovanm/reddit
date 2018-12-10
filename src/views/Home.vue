@@ -37,4 +37,7 @@ export default class Home extends Vue {
   a
     color #3d93f9
     text-decoration none
+
+    &:hover
+      text-decoration underline
 </style>

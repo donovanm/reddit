@@ -3,8 +3,9 @@
     <div class="author">
       <span class="upvotes">{{comment.upvotes}}</span>
       {{comment.author}}
-      <span v-if="comment.edited" class="comment-info">edited {{editedTimeAgo}}</span>
       <span class="op" v-if="comment.isOP">OP</span>
+      <span class="comment-info">{{createdTimeAgo}}</span>
+      <span v-if="comment.edited" class="comment-info"> (edited {{editedTimeAgo}})</span>
     </div>
     <div class="body" ref="body" v-html="formattedBody" />
     <Comments v-if="hasChildren" :comments="children" />
@@ -23,6 +24,7 @@ import mapComments from '@/utils/mapComments';
 export default class Comment extends Vue {
   @Prop() private comment!: {
     body: string,
+    created: number,
     edited: number | boolean,
     replies: {
       data: {
@@ -42,6 +44,10 @@ export default class Comment extends Vue {
 
   get children() {
     return this.comment.replies.data.children.map(mapComments);
+  }
+
+  get createdTimeAgo(): string {
+    return timeago().format((Number(this.comment.created)) * 1000);
   }
 
   get editedTimeAgo(): string {
@@ -65,19 +71,24 @@ export default class Comment extends Vue {
 
   .author
     color #aa4823
+    color #d16841
 
     .op
-      color white
-      font-size 70%
       background-color #3e88ad
       border-radius 4px
-      padding 1px 4px
+      color white
+      display inline-block
+      font-size 70%
       font-weight bold
+      margin 2px 0
+      padding 1px 4px 0
+      vertical-align top
 
     .comment-info
       color #747474
       font-size 80%
       font-style italic
+      margin-left 5px
 
   .body
     font-size 14px

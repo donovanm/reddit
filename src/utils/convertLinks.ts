@@ -16,6 +16,8 @@ export default (parent: Element, router: any): void => {
           event.preventDefault();
           router.push(url.split('https://www.reddit.com/r/')[1]);
         };
+      } else {
+        el.target = '_blank';
       }
     });
   }

@@ -35,9 +35,14 @@ export default class Comments extends Vue {
 
   .comments
     border-left 2px solid #efefef
+    border-radius 6px 0 0 0
     margin-left 0
 
 #main.night-mode
   .comments .comments
     border-color #2a2a2a
+    transition border-color 200ms
+
+    &:hover
+      border-color #777
 </style>
