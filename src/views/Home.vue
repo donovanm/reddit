@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
     <Header :onUpdate="onUpdateSubreddit" />
-    <Listing :subreddit="formattedSubreddit" />
+    <Listing />
   </div>
 </template>
 
@@ -20,14 +20,12 @@ import Listing from '@/components/Listing.vue';
   },
 })
 export default class Home extends Vue {
-  public subreddit: string = '';
-
-  public onUpdateSubreddit(text: string): void {
-    this.subreddit = text;
-  }
-
-  get formattedSubreddit() {
-    return this.subreddit ? `/r/${this.subreddit}` : '';
+  public onUpdateSubreddit(subreddit: string): void {
+    if (subreddit) {
+      this.$router.push({ name: 'subreddit', params: { subreddit }});
+    } else {
+      this.$router.push('/');
+    }
   }
 }
 </script>

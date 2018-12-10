@@ -6,14 +6,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class Header extends Vue {
   @Prop() private onUpdate!: (text: string) => {};
-  @Prop() private subreddit!: string;
 
-  private text: string = this.subreddit;
+  private text: string = '';
+
+  public mounted() {
+    this.text = this.$route.params.subreddit;
+  }
+
+  @Watch('$route')
+  public onRouteChanged() {
+    this.text = this.$route.params.subreddit;
+  }
 
   public handleKeyPress(event: { key: string }) {
     if (event.key === 'Enter') {

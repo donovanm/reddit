@@ -1,6 +1,6 @@
 <template>
   <div class="listing">
-    <ul>
+    <ul :class="{ loading: isLoadingListing }">
       <li v-for="item in items" :key="item.id" :class="{ active: item.id === postId }">
         <ListItem
           :author="item.author"
@@ -16,7 +16,7 @@
         />
       </li>
     </ul>
-    <content>
+    <content :class="{ loading: isLoadingListing }">
       <Post
         :author="post.author"
         :commentCount="post.commentCount"
@@ -50,15 +50,20 @@ function parseRedditVideo(data: { secure_media: { reddit_video: { fallback_url: 
   components: { ListItem, Post },
 })
 export default class Listing extends Vue {
-  @Prop() private subreddit!: string;
   private comments: object[] = [];
+  private isLoadingListing: boolean = true;
   private items: object[] = [];
   private post: object = {};
   private postId: string = '';
 
-  @Watch('subreddit')
+  @Watch('$route')
   public onSubredditChanged(val: string, oldVal: string) {
     this.getListing();
+  }
+
+  get subreddit(): string {
+    const subreddit = this.$route.params.subreddit;
+    return subreddit ? `r/${subreddit}` : '';
   }
 
   public handleClickPost(id: string): void {
@@ -89,6 +94,7 @@ export default class Listing extends Vue {
   }
 
   private getListing() {
+    this.isLoadingListing = true;
     fetch(`https://www.reddit.com/${this.subreddit}/best.json?limit=50`)
       .then((res) => res.json())
       .then((results) => {
@@ -119,6 +125,7 @@ export default class Listing extends Vue {
           url: result.data.url.replace(/\.gifv$/, '.mp4'),
         }));
         this.getPost(results.data.children[0].data.id);
+        this.isLoadingListing = false;
       });
   }
 }
@@ -133,8 +140,14 @@ export default class Listing extends Vue {
     background-color #222
     height calc(100vh - 40px)
     margin 0
+    opacity 1
     overflow hidden
     padding 0
+    transition opacity 0
+
+    &.loading
+      opacity 0
+      transition opacity 300ms
 
     li
       box-sizing content-box
@@ -150,5 +163,11 @@ export default class Listing extends Vue {
 
   content
     max-height calc(100vh - 40px)
+    opacity 1
     overflow hidden auto
+    transition opacity 0
+
+    &.loading
+      opacity 0
+      transition opacity 300ms
 </style>
