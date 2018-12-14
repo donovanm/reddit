@@ -138,7 +138,7 @@ export default class Listing extends Vue {
 
   & > ul
     background-color #222
-    height calc(100vh - 40px)
+    height calc(100vh - 32px)
     margin 0
     opacity 1
     overflow hidden
@@ -162,7 +162,7 @@ export default class Listing extends Vue {
       overflow-y auto
 
   content
-    max-height calc(100vh - 40px)
+    max-height calc(100vh - 32px)
     opacity 1
     overflow hidden auto
     transition opacity 0

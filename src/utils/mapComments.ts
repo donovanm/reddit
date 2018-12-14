@@ -6,6 +6,7 @@ export default function mapComments({ data: comment }: any) {
     downvotes: comment.downs,
     edited: comment.edited,
     id: comment.id,
+    isScoreHidden: comment.score_hidden,
     isOP: comment.is_submitter,
     replies: comment.replies,
     upvotes: comment.ups,

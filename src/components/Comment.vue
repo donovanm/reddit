@@ -1,9 +1,11 @@
 <template>
   <div class="comment" v-if="comment.author">
     <div class="author">
-      <span class="upvotes">{{comment.upvotes}}</span>
+      <span class="upvotes" :title="comment.isScoreHidden ? 'Score hidden' : ''">
+        {{score}}
+      </span>
       {{comment.author}}
-      <span class="op" v-if="comment.isOP">OP</span>
+      <span class="op" v-if="comment.isOP" title="Original Poster">OP</span>
       <span class="comment-info">{{createdTimeAgo}}</span>
       <span v-if="comment.edited" class="comment-info"> (edited {{editedTimeAgo}})</span>
     </div>
@@ -26,11 +28,13 @@ export default class Comment extends Vue {
     body: string,
     created: number,
     edited: number | boolean,
+    isScoreHidden: boolean,
     replies: {
       data: {
         children: object[],
       },
     },
+    upvotes: number,
   };
 
   public mounted() {
@@ -61,6 +65,10 @@ export default class Comment extends Vue {
   get hasChildren(): boolean {
     return Boolean(this.comment && this.comment.replies && this.comment.replies.data.children.length);
   }
+
+  get score(): number | string {
+    return this.comment.isScoreHidden ? '?' : this.comment.upvotes;
+  }
 }
 </script>
 
@@ -77,6 +85,7 @@ export default class Comment extends Vue {
       background-color #3e88ad
       border-radius 4px
       color white
+      cursor default
       display inline-block
       font-size 70%
       font-weight bold

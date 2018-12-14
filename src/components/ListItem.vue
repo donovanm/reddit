@@ -15,7 +15,7 @@
       <div>
         <div class="author">by <span>u/{{author}}</span></div>
         <div class="subreddit">
-          <a :href="subreddit">{{subreddit}}</a>
+          <router-link :to="subreddit">{{subreddit}}</router-link>
           <div class="domain">{{domain}}</div>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default class ListItem extends Vue {
 
 h3
   font-family "Product Sans"
-  font-size 16px
+  font-size 15px
   font-weight 500
   grid-column 1 / -2
   line-height 1.4
